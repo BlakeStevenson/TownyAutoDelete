@@ -1,0 +1,5 @@
+version: 1.0-SNAPSHOT
+# enter the inactivity of all players in a town in hours before it will be deleted
+inactiveLength: 336 # 14 days
+# how often will the server be checked for inactive towns? (minutes)
+interval: 60
