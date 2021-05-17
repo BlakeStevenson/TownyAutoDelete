@@ -1,6 +1,6 @@
 name: TownyAutoDelete
 author: Blake Stevenson
-version: 1.1-SNAPSHOT
+version: 1.2-SNAPSHOT
 api-version: 1.16
 main: me.blake.townyautodelete.TownyAutoDelete
 depend: [Towny]

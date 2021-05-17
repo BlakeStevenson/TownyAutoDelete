@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,10 @@ public class TownyAutoDelete extends JavaPlugin {
         this.saveDefaultConfig();
         config.addDefault("inactiveLength", 336);
         config.addDefault("interval", 60);
-        config.set("version", "1.1-SNAPSHOT");
+        config.addDefault("exemptions", Arrays.asList("Example_Town", "Example_Town_2"));
+        config.set("version", "1.2-SNAPSHOT");
+        config.options().copyDefaults(true);
+        saveConfig();
     }
 
     public void deleteTowns() {
@@ -39,7 +43,7 @@ public class TownyAutoDelete extends JavaPlugin {
                 int numInactive = 0;
 
                 for (Resident r : residents) {
-                    if (r.getPlayer() == null) {
+                    if (r.getPlayer() == null && !r.isNPC()) {
                         Date lastJoinDate = new Date(this.getServer().getOfflinePlayer(r.getUUID()).getLastPlayed());
                         Date now = new Date();
                         long difference = now.getTime() - lastJoinDate.getTime();
@@ -50,7 +54,7 @@ public class TownyAutoDelete extends JavaPlugin {
                     }
                 }
 
-                if (numInactive == residents.size()) {
+                if (numInactive == residents.size() && !t.getMayor().isNPC()) {
                     getServer().broadcastMessage(ChatColor.RED + t.getFormattedName() + " has fallen!");
                     TownyUniverse.getInstance().getDataSource().removeTown(t);
                 }
